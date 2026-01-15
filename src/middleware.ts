@@ -10,6 +10,7 @@ const isPublicRoute = createRouteMatcher([
     '/katalog(.*)',
     '/flash-sale(.*)',
     '/api(.*)',
+    '/manifest.json',
 ])
 
 export default clerkMiddleware(async (auth, request) => {

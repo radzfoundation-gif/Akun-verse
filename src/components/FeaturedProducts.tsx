@@ -6,14 +6,11 @@ import { ArrowRight, Flame, Loader2 } from 'lucide-react';
 import ProductCard from './ProductCard';
 import { Product } from '@/data/products';
 import { getFeaturedProducts } from '@/lib/productService';
+import { supabase } from '@/lib/supabase';
 
 export default function FeaturedProducts() {
     const [products, setProducts] = useState<Product[]>([]);
     const [isLoading, setIsLoading] = useState(true);
-
-    useEffect(() => {
-        loadProducts();
-    }, []);
 
     const loadProducts = async () => {
         try {
@@ -25,6 +22,26 @@ export default function FeaturedProducts() {
             setIsLoading(false);
         }
     };
+
+    useEffect(() => {
+        loadProducts();
+
+        // Realtime subscription
+        const channel = supabase
+            .channel('realtime-featured-products')
+            .on(
+                'postgres_changes',
+                { event: '*', schema: 'public', table: 'products' },
+                () => {
+                    loadProducts();
+                }
+            )
+            .subscribe();
+
+        return () => {
+            supabase.removeChannel(channel);
+        };
+    }, []);
 
     return (
         <section className="py-16 bg-[#111827]">

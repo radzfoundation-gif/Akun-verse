@@ -33,15 +33,15 @@ export default function Footer() {
                         <ul className="space-y-2 text-sm text-gray-400">
                             <li><Link href="/lacak-pesanan" className="hover:text-[#FACC15]">Lacak Pesanan</Link></li>
                             <li><Link href="/orders" className="hover:text-[#FACC15]">Riwayat Pesanan</Link></li>
-                            <li><Link href="#" className="hover:text-[#FACC15]">Hubungi Kami</Link></li>
-                            <li><Link href="#" className="hover:text-[#FACC15]">FAQ</Link></li>
+                            <li><Link href="/contact" className="hover:text-[#FACC15]">Hubungi Kami</Link></li>
+                            <li><Link href="/faq" className="hover:text-[#FACC15]">FAQ</Link></li>
                         </ul>
                     </div>
                     <div>
                         <h4 className="font-semibold text-white mb-4 text-sm">Legal</h4>
                         <ul className="space-y-2 text-sm text-gray-400">
-                            <li><Link href="#" className="hover:text-[#FACC15]">Privacy Policy</Link></li>
-                            <li><Link href="#" className="hover:text-[#FACC15]">Terms of Service</Link></li>
+                            <li><Link href="/privacy" className="hover:text-[#FACC15]">Kebijakan Privasi</Link></li>
+                            <li><Link href="/terms" className="hover:text-[#FACC15]">Syarat & Ketentuan</Link></li>
                         </ul>
                     </div>
                 </div>

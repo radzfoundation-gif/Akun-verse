@@ -229,3 +229,29 @@ export async function markCouponAsUsed(userId: string, couponCode: string) {
     return true;
 }
 
+// ==================== ORDERS ====================
+
+export interface AdminOrder {
+    id: string;
+    order_number: string;
+    user_id: string;
+    items: any[];
+    total_price: number;
+    final_price: number;
+    discount: number;
+    promo_code?: string | null;
+    payment_method: string;
+    status: 'pending' | 'paid' | 'failed' | 'expired' | 'refunded';
+    paid_at?: string | null;
+    created_at: string;
+}
+
+export async function getOrders() {
+    const { data, error } = await supabase
+        .from('orders')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+    if (error) throw error;
+    return data as AdminOrder[];
+}

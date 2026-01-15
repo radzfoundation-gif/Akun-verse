@@ -7,7 +7,10 @@ import Image from "next/image";
 
 const CAROUSEL_IMAGES = [
     "/promo-popup.png",
-    "/promo-popup-2.png"
+    "/promo-popup-2.png",
+    "/banners/slot-akun-game.jpg",
+    "/banners/library-akunverse.jpg",
+    "/banners/coming-soon-diskon.png"
 ];
 
 export default function ShopeeBanner() {
@@ -33,14 +36,24 @@ export default function ShopeeBanner() {
     return (
         <section className="bg-transparent pt-4 pb-4 md:pt-6 md:pb-0">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-2 h-auto md:h-[280px] lg:h-[320px]">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-2 h-auto md:h-[340px] lg:h-[420px]">
 
                     {/* Main Carousel (2/3 width) */}
                     <div className="md:col-span-2 relative h-[200px] md:h-full rounded-lg overflow-hidden group shadow-sm bg-[#1F2933] border border-white/5">
+                        {/* Background with blur effect */}
+                        <div className="absolute inset-0 bg-[#1F2933]">
+                            <img
+                                src={CAROUSEL_IMAGES[currentIndex]}
+                                alt="Banner Background"
+                                className="w-full h-full object-cover blur-xl opacity-50 scale-110"
+                            />
+                        </div>
+
+                        {/* Main Image */}
                         <img
                             src={CAROUSEL_IMAGES[currentIndex]}
                             alt="Main Banner"
-                            className="w-full h-full object-contain bg-[#1F2933] transition-all duration-500"
+                            className="relative w-full h-full object-contain z-10 transition-all duration-500"
                         />
 
                         {/* Arrows */}

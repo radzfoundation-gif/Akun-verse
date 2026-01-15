@@ -66,6 +66,48 @@ function PaymentStatusContent() {
         setIsRefreshing(false);
     };
 
+    const handleDownloadInvoice = async () => {
+        if (!orderData || !orderId) return;
+
+        try {
+            const response = await fetch('/api/invoice', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    orderId,
+                    orderDate: new Date().toISOString(), // Use actual date if available
+                    customerName: orderData.customerInfo.name,
+                    customerEmail: orderData.customerInfo.email,
+                    items: orderData.items.map(item => ({
+                        name: item.title,
+                        quantity: item.quantity,
+                        price: item.priceValue
+                    })),
+                    subtotal: orderData.totalPrice,
+                    discount: orderData.discount,
+                    total: orderData.finalPrice,
+                    paymentMethod: orderData.paymentMethod.toUpperCase(),
+                    paymentStatus: 'paid'
+                }),
+            });
+
+            if (!response.ok) throw new Error('Failed to generate invoice');
+
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `invoice-${orderId}.html`;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+        } catch (error) {
+            console.error('Error downloading invoice:', error);
+            alert('Gagal mengunduh invoice');
+        }
+    };
+
     const formatPrice = (price: number) => {
         return new Intl.NumberFormat('id-ID', {
             style: 'currency',
@@ -205,13 +247,22 @@ function PaymentStatusContent() {
                     )}
 
                     {status === 'success' && (
-                        <Link
-                            href="/orders"
-                            className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-[#FACC15] text-[#111827] rounded-xl font-medium hover:bg-[#EAB308] transition-colors"
-                        >
-                            <Package size={18} />
-                            Lihat Pesanan Saya
-                        </Link>
+                        <>
+                            <button
+                                onClick={handleDownloadInvoice}
+                                className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-[#111827] text-white border border-white/10 rounded-xl font-medium hover:bg-white/5 transition-colors"
+                            >
+                                <Receipt size={18} />
+                                Download Invoice
+                            </button>
+                            <Link
+                                href="/orders"
+                                className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-[#FACC15] text-[#111827] rounded-xl font-medium hover:bg-[#EAB308] transition-colors"
+                            >
+                                <Package size={18} />
+                                Pesanan Saya
+                            </Link>
+                        </>
                     )}
 
                     {(status === 'error' || status === 'expired') && (

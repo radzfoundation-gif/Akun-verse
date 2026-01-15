@@ -6,14 +6,11 @@ import { ArrowRight, Sparkles, Loader2 } from "lucide-react";
 import ProductCard from "./ProductCard";
 import { Product } from "@/data/products";
 import { getNewArrivals } from "@/lib/productService";
+import { supabase } from "@/lib/supabase";
 
 export default function NewArrivals() {
     const [products, setProducts] = useState<Product[]>([]);
     const [isLoading, setIsLoading] = useState(true);
-
-    useEffect(() => {
-        loadProducts();
-    }, []);
 
     const loadProducts = async () => {
         try {
@@ -25,6 +22,26 @@ export default function NewArrivals() {
             setIsLoading(false);
         }
     };
+
+    useEffect(() => {
+        loadProducts();
+
+        // Realtime subscription
+        const channel = supabase
+            .channel('realtime-new-arrivals')
+            .on(
+                'postgres_changes',
+                { event: '*', schema: 'public', table: 'products' },
+                () => {
+                    loadProducts();
+                }
+            )
+            .subscribe();
+
+        return () => {
+            supabase.removeChannel(channel);
+        };
+    }, []);
 
     return (
         <section className="py-12 bg-[#111827]">

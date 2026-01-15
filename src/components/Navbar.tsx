@@ -2,13 +2,15 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Gamepad2, ShoppingCart, Menu, Search, User, ClipboardList, Bell, HelpCircle } from 'lucide-react';
+import { Gamepad2, ShoppingCart, Menu, Search, User, ClipboardList, Bell, HelpCircle, Heart } from 'lucide-react';
+import { useWishlist } from '@/contexts/WishlistContext';
 import { useCart } from '@/contexts/CartContext';
 import MobileMenu from './MobileMenu';
 import { SignedIn, SignedOut, UserButton, useUser, SignInButton } from '@clerk/nextjs';
 
 export default function Navbar() {
     const { totalItems, setIsCartOpen } = useCart();
+    const { items: wishlistItems } = useWishlist();
     const { user } = useUser();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
@@ -112,7 +114,20 @@ export default function Navbar() {
                         </div>
 
                         {/* Right Actions */}
-                        <div className="flex items-center gap-3 md:gap-6 ml-auto md:ml-0">
+                        <div className="flex items-center gap-3 md:gap-4 ml-auto md:ml-0">
+                            {/* Wishlist */}
+                            <Link
+                                href="/wishlist"
+                                className="text-gray-300 hover:text-[#FACC15] transition-colors relative group p-1"
+                            >
+                                <Heart size={24} strokeWidth={1.5} className="md:w-7 md:h-7" />
+                                {wishlistItems.length > 0 && (
+                                    <span className="absolute -top-1 -right-1 h-4 w-4 md:h-5 md:w-5 bg-pink-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+                                        {wishlistItems.length > 99 ? '99+' : wishlistItems.length}
+                                    </span>
+                                )}
+                            </Link>
+
                             {/* Cart */}
                             <button
                                 onClick={() => setIsCartOpen(true)}
@@ -141,8 +156,8 @@ export default function Navbar() {
                                             <span className="text-[#F9FAFB] font-medium text-xs">
                                                 {user?.username || user?.firstName}
                                             </span>
-                                            <Link href="/orders" className="text-[10px] text-[#FACC15] hover:text-[#EAB308] flex items-center gap-1">
-                                                <ClipboardList size={10} /> Member Elite
+                                            <Link href="/profile" className="text-[10px] text-[#FACC15] hover:text-[#EAB308] flex items-center gap-1">
+                                                <User size={10} /> Profile & Settings
                                             </Link>
                                         </div>
                                         <div className="bg-[#1F2933] p-0.5 rounded-full border border-white/10 hover:border-[#FACC15] transition-colors cursor-pointer">
