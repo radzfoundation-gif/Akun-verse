@@ -20,38 +20,7 @@ interface ProductReviewsProps {
     reviews?: Review[];
 }
 
-// Demo reviews data
-const demoReviews: Review[] = [
-    {
-        id: '1',
-        userName: 'Ahmad S.',
-        rating: 5,
-        comment: 'Produk sesuai deskripsi, pengiriman cepat banget! Kurang dari 5 menit sudah masuk. Seller sangat responsif dan helpful. Recommended!',
-        date: '2026-01-12',
-        helpful: 12,
-        verified: true,
-    },
-    {
-        id: '2',
-        userName: 'Budi P.',
-        rating: 4,
-        comment: 'Overall bagus, akun berjalan normal. Cuma agak lama nunggunya di jam sibuk. Tapi CS responsif kok.',
-        date: '2026-01-10',
-        helpful: 8,
-        verified: true,
-    },
-    {
-        id: '3',
-        userName: 'Citra W.',
-        rating: 5,
-        comment: 'Sudah 3x beli di sini, selalu puas! Harga termurah dibanding kompetitor.',
-        date: '2026-01-08',
-        helpful: 15,
-        verified: true,
-    },
-];
-
-export default function ProductReviews({ productId, reviews = demoReviews }: ProductReviewsProps) {
+export default function ProductReviews({ productId, reviews = [] }: ProductReviewsProps) {
     const [helpfulClicked, setHelpfulClicked] = useState<Set<string>>(new Set());
 
     const averageRating = reviews.length > 0
@@ -181,8 +150,8 @@ export default function ProductReviews({ productId, reviews = demoReviews }: Pro
                             <button
                                 onClick={() => handleHelpful(review.id)}
                                 className={`flex items-center gap-1.5 text-xs transition-colors ${helpfulClicked.has(review.id)
-                                        ? 'text-purple-400'
-                                        : 'text-gray-500 hover:text-gray-300'
+                                    ? 'text-purple-400'
+                                    : 'text-gray-500 hover:text-gray-300'
                                     }`}
                             >
                                 <ThumbsUp size={14} fill={helpfulClicked.has(review.id) ? 'currentColor' : 'none'} />

@@ -20,7 +20,7 @@ function adminToProduct(admin: AdminProduct): Product {
         },
         badge: admin.badge as Product['badge'],
         stock: admin.stock,
-        sold: 5 + (admin.name.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) % 75),
+        sold: 100 + (admin.name.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) % 500),
         description: admin.description || '',
         accountType: admin.account_type || undefined,
     };

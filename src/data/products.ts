@@ -80,7 +80,7 @@ export const products: Product[] = [
             verified: true
         },
         stock: 2,
-        sold: 89,
+        sold: 245,
         description: 'Akun Genshin Impact AR 60, semua Archon, 5-star weapon lengkap.'
     },
 

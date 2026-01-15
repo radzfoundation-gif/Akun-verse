@@ -28,13 +28,6 @@ const paymentMethods = [
 
 const STEPS = ['Review', 'Info', 'Pembayaran'];
 
-// Demo promo codes
-const PROMO_CODES: Record<string, { discount: number; type: 'percent' | 'fixed'; minSpend?: number }> = {
-    'VERSE50': { discount: 0.5, type: 'percent', minSpend: 0 },
-    'ONGKIRFREE': { discount: 15000, type: 'fixed', minSpend: 50000 },
-    'BARUGABUNG': { discount: 20000, type: 'fixed', minSpend: 100000 },
-    'DISKON10': { discount: 0.1, type: 'percent', minSpend: 0 },
-};
 
 
 export default function CheckoutPage() {
@@ -93,47 +86,6 @@ export default function CheckoutPage() {
         return Object.keys(errors).length === 0;
     };
 
-    const handlePromoApply = async (code: string): Promise<{ valid: boolean; discount: number; message: string }> => {
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 500));
-
-        // 1. Check if valid code exists in our system
-        const promo = PROMO_CODES[code];
-        if (!promo) {
-            return { valid: false, discount: 0, message: 'Kode promo tidak valid' };
-        }
-
-        // 2. Check min spend
-        if (promo.minSpend && totalPrice < promo.minSpend) {
-            return {
-                valid: false,
-                discount: 0,
-                message: `Min. belanja ${formatPrice(promo.minSpend)}`
-            };
-        }
-
-        // 3. User verification (Client-side localStorage)
-        const stored = localStorage.getItem('claimedCoupons');
-        const claimedCoupons = stored ? JSON.parse(stored) : [];
-        const isPublic = ['DISKON10'].includes(code); // Allow public codes
-
-        if (!isPublic && !claimedCoupons.includes(code)) {
-            return { valid: false, discount: 0, message: 'Kamu belum klaim kupon ini' };
-        }
-
-        let discountAmount = 0;
-        if (promo.type === 'percent') {
-            discountAmount = Math.floor(totalPrice * promo.discount);
-        } else {
-            discountAmount = promo.discount;
-        }
-
-        // Max discount is total price
-        discountAmount = Math.min(discountAmount, totalPrice);
-
-        setAppliedPromo({ code, discount: discountAmount });
-        return { valid: true, discount: discountAmount, message: 'Promo berhasil diterapkan' };
-    };
 
     const handlePromoRemove = () => {
         setAppliedPromo(null);

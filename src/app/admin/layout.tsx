@@ -111,9 +111,6 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
                         </button>
                     </form>
 
-                    <p className="text-center text-gray-500 text-xs mt-6">
-                        Demo password: admin123
-                    </p>
                 </div>
             </div>
         );
@@ -151,8 +148,8 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
                                     href={item.href}
                                     onClick={() => setSidebarOpen(false)}
                                     className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${isActive
-                                            ? 'bg-brand-500 text-white'
-                                            : 'text-gray-400 hover:bg-gray-700 hover:text-white'
+                                        ? 'bg-brand-500 text-white'
+                                        : 'text-gray-400 hover:bg-gray-700 hover:text-white'
                                         }`}
                                 >
                                     <item.icon size={20} />
