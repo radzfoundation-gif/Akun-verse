@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Script from "next/script";
+import { Suspense } from "react";
 import "./globals.css";
 import { CartProvider } from "@/contexts/CartContext";
 import { WishlistProvider } from "@/contexts/WishlistContext";
@@ -115,7 +116,9 @@ export default function RootLayout({
               <ReferralProvider>
                 <RecentlyViewedProvider>
                   <LoyaltyProvider>
-                    <ReferralListener />
+                    <Suspense fallback={null}>
+                      <ReferralListener />
+                    </Suspense>
                     <UserSync />
                     <LoginModal />
                     <PromoPopup />
