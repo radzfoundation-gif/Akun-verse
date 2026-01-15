@@ -12,6 +12,7 @@ import NewArrivals from "@/components/NewArrivals";
 import ShopeeBanner from "@/components/ShopeeBanner";
 import FeatureIcons from "@/components/FeatureIcons";
 import RecommendationSection from "@/components/RecommendationSection";
+import Testimonials from "@/components/Testimonials";
 
 export default function Home() {
   return (
@@ -30,6 +31,7 @@ export default function Home() {
       <PopularGames />
       <FeaturedProducts />
       <PromoSection />
+      <Testimonials />
       <Features />
       <Newsletter />
       <Footer />

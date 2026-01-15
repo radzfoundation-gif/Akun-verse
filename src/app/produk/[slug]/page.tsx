@@ -11,6 +11,8 @@ import ShareProductButton from "@/components/ShareProductButton";
 import RealtimeSold from "@/components/RealtimeSold";
 import ProductViewTracker from "@/components/ProductViewTracker";
 import RealtimeStockBadge from "@/components/RealtimeStockBadge";
+import ProductReviews from "@/components/ProductReviews";
+import { productReviews } from "@/data/reviews";
 import { notFound } from "next/navigation";
 import { getProductBySlug, getProductsByCategory } from "@/lib/productService";
 
@@ -150,8 +152,8 @@ export default async function ProductPage({ params }: PageProps) {
                                 {product.accountType && (
                                     <div className="mb-3">
                                         <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium border ${product.accountType === 'private'
-                                                ? 'bg-purple-500/10 text-purple-400 border-purple-500/20'
-                                                : 'bg-blue-500/10 text-blue-400 border-blue-500/20'
+                                            ? 'bg-purple-500/10 text-purple-400 border-purple-500/20'
+                                            : 'bg-blue-500/10 text-blue-400 border-blue-500/20'
                                             }`}>
                                             {product.accountType === 'private' ? <User size={12} /> : <Users size={12} />}
                                             {product.accountType === 'private' ? 'Private Account' : 'Sharing Account'}
@@ -239,6 +241,16 @@ export default async function ProductPage({ params }: PageProps) {
                             </div>
                         </div>
                     </div>
+                </div>
+            </section>
+
+            {/* Product Reviews */}
+            <section className="py-8 bg-[#111827]">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <ProductReviews
+                        productId={product.id}
+                        reviews={productReviews[product.id] || productReviews['default']}
+                    />
                 </div>
             </section>
 
